@@ -1,59 +1,70 @@
-# OhmsGateWebsite
+# Ohm’s Gate Portal
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.13.
+Ohm’s Gate Portal is the official web platform for **Ohm’s Gate**, designed to provide a public-facing presentation website and a protected access area for educational users.
 
-## Development server
+The platform serves two main purposes:
 
-To start a local development server, run:
+- **Public access** for anyone who wants to learn about the project and install the standard version of Ohm’s Gate
+- **Authenticated access** for teachers or institutional users who need access to restricted resources such as **Teacher Mode**
 
-```bash
-ng serve
-```
+Teacher Mode is a separate PC application that acts as a classroom control server. VR users connect to it individually, each inside their own sandbox environment, while the teacher can monitor, navigate between users, identify problems, and manage the session.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Features
 
-## Code scaffolding
+### Public area
+- Landing page for project presentation
+- Overview of Ohm’s Gate and its purpose
+- Download/install access for the standard version
+- Clean product-style interface
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Authenticated area
+- Login and registration system
+- Protected teacher-only pages
+- Access to restricted downloads and Teacher Mode resources
+- Role-based separation between public users and educational users
 
-```bash
-ng generate component component-name
-```
+### Admin / teacher-oriented functionality
+- Management interface for restricted builds or installation packages
+- Searchable and sortable data table
+- Create, edit, and delete entries through modal forms
+- Structured dashboard for institutional use
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Project Goal
 
-```bash
-ng generate --help
-```
+This website is built as an Angular application that combines:
 
-## Building
+- product presentation
+- authenticated access control
+- restricted resource distribution
+- management features for educational deployment
 
-To build the project run:
 
-```bash
-ng build
-```
+## Tech Stack
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- **Angular**
+- **TypeScript**
+- **NgZorro**
+- **RxJS**
+- **Angular Signals**
+- **Lazy Loaded Feature Modules**
+- **Fake API or backend API integration**
 
-## Running unit tests
+## Core Requirements Covered
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+This project is designed to satisfy the main Angular course requirements, including:
 
-```bash
-ng test
-```
+- Login and Register pages
+- Form validation with at least one custom validator
+- Remember Me support
+- Route protection for authenticated pages
+- Fully lazy loaded structure
+- Use of `input()`, `output()`, and services
+- Searchable, sortable, editable table/list
+- Modal-based create and update flows
+- Signal usage
+- UI library integration with NgZorro
+- Clean component-based architecture
 
-## Running end-to-end tests
+## Vision
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Ohm’s Gate Portal is more than a simple landing page. It is meant to become the web entry point of the wider Ohm’s Gate ecosystem, connecting public users, teachers, and educational deployments through a structured and scalable Angular application.
