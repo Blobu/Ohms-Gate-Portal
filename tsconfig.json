@@ -29,5 +29,6 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "baseUrl": "src"
 }
