@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DownloadItemModel } from '../../core/models/download-item.model';
 
@@ -28,6 +28,7 @@ import { DownloadItemModel } from '../../core/models/download-item.model';
         <section id="hero" class="hero-section">
           <div class="hero-animation">
             <video
+              #heroVideo
               class="hero-video"
               autoplay
               muted
@@ -85,9 +86,7 @@ import { DownloadItemModel } from '../../core/models/download-item.model';
           <div class="features-grid">
             <article class="features-card">
               <h3>Hand Tracking</h3>
-              <p>
-                Physically grab, snap, and wire components
-              </p>
+              <p>Physically grab, snap, and wire components</p>
             </article>
 
             <article class="features-card">
@@ -114,7 +113,9 @@ import { DownloadItemModel } from '../../core/models/download-item.model';
     </div>
   `,
 })
-export class PublicHome {
+export class PublicHome implements AfterViewInit {
+  @ViewChild('heroVideo') heroVideo!: ElementRef<HTMLVideoElement>;
+
   protected windowsBuild: DownloadItemModel = {
     id: 1,
     deploymentName: 'Ohms Gate Standard Build',
@@ -134,6 +135,26 @@ export class PublicHome {
     estimatedInstances: 0,
     downloadUrl: 'http://localhost:3000/downloads/quest',
   };
+
+  ngAfterViewInit(): void {
+    const video = this.heroVideo.nativeElement;
+
+    video.muted = true;
+    video.playsInline = true;
+    video.load();
+
+    const tryPlay = () => {
+      video.play().catch((error) => {
+        console.warn('Autoplay blocked:', error);
+      });
+    };
+
+    if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+      tryPlay();
+    } else {
+      video.addEventListener('canplay', tryPlay, { once: true });
+    }
+  }
 
   downloadWindows(): void {
     window.open(this.windowsBuild.downloadUrl, '_blank');
