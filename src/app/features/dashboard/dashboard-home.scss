@@ -1,0 +1,124 @@
+.teacher-portal {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.portal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1.6rem;
+  background:
+    radial-gradient(circle at top right, rgba(217, 106, 43, 0.2), transparent 32%),
+    linear-gradient(135deg, rgba(255, 250, 241, 0.96), rgba(246, 239, 227, 0.84));
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hard);
+}
+
+.portal-copy {
+  max-width: 760px;
+}
+
+.portal-eyebrow {
+  margin: 0 0 0.55rem;
+  color: var(--accent-deep);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.portal-header h1 {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 5vw, 4.8rem);
+  line-height: 0.92;
+  letter-spacing: -0.07em;
+}
+
+.portal-description {
+  max-width: 620px;
+  margin: 1rem 0 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.portal-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.home-button,
+.logout-button {
+  min-width: 108px;
+  height: 42px;
+  border: 2px solid var(--border) !important;
+  border-radius: 999px !important;
+  font-weight: 900;
+  box-shadow: 4px 4px 0 rgba(24, 22, 20, 0.16);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.home-button {
+  background: var(--accent) !important;
+  color: #fffaf1 !important;
+}
+
+.logout-button {
+  background: var(--bg-elevated) !important;
+  color: var(--text) !important;
+}
+
+.home-button:hover,
+.logout-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 rgba(24, 22, 20, 0.16);
+}
+
+.home-button:hover {
+  background: var(--accent-deep) !important;
+  color: #fffaf1 !important;
+}
+
+.logout-button:hover {
+  background: var(--text) !important;
+  color: #fffaf1 !important;
+}
+
+@media (max-width: 768px) {
+  .teacher-portal {
+    width: min(100% - 1rem, 1180px);
+    padding-top: 1rem;
+  }
+
+  .portal-header {
+    flex-direction: column;
+    padding: 1.15rem;
+  }
+
+  .portal-header h1 {
+    font-size: clamp(2.2rem, 15vw, 3.7rem);
+  }
+
+  .portal-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .home-button,
+  .logout-button {
+    width: 100%;
+  }
+}
