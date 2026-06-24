@@ -13,7 +13,7 @@ import { AuthService } from '../../core/service/auth.service';
   `,
 })
 export class DashboardHome {
-  private authService = inject(AuthService);
+  protected authService = inject(AuthService);
   private router = inject(Router);
 
   onLogout(): void {
