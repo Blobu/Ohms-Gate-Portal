@@ -4,31 +4,18 @@ import { Component, input, output } from '@angular/core';
   selector: 'app-download-item',
   standalone: true,
   template: `
-    <article>
-      <h2>{{ title() }}</h2>
-      <p>{{ description() }}</p>
-      <p>Version: {{ version() }}</p>
-
-      @if (restricted()) {
-        <p>Restricted access</p>
-      }
-
-      <button type="button" (click)="onDownload()">
-        {{ buttonLabel() }}
-      </button>
-    </article>
+    <button type="button" (click)="onDownload()">
+      {{ label() }}
+    </button>
   `,
 })
 export class DownloadItem {
-  title = input.required<string>();
-  description = input.required<string>();
-  version = input<string>('1.0.0');
-  buttonLabel = input<string>('Download');
-  restricted = input<boolean>(false);
+  id = input.required<number>();
+  label = input<string>('Download');
 
-  downloadRequested = output<void>();
+  downloadRequested = output<number>();
 
   onDownload(): void {
-    this.downloadRequested.emit();
+    this.downloadRequested.emit(this.id());
   }
 }

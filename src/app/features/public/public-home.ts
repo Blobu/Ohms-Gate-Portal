@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DownloadItem } from '../../shared/download-item';
+import { DownloadItemModel } from 'app/core/models/download-item.model';
 
 @Component({
   selector: 'app-public-home',
@@ -14,19 +15,26 @@ import { DownloadItem } from '../../shared/download-item';
     <a routerLink="/auth/register">Register</a>
 
     <app-download-item
-      [title]="'Ohms Gate Standard'"
-      [description]="'Public build for general users.'"
-      [version]="'1.0.0'"
-      [buttonLabel]="'Download now'"
-      [restricted]="false"
-      (downloadRequested)="onStandardDownload()"
+      [id]="publicBuild.id"
+      [label]="'Download standard version'"
+      (downloadRequested)="onDownloadRequested($event)"
     />
     
   `,
 })
 export class PublicHome {
 
-  onStandardDownload(): void {
-    console.log('Standard download requested');
+  protected publicBuild: DownloadItemModel = {
+    id: 1,
+    deploymentName: 'Ohms Gate Standard Build',
+    version: '1.0.0',
+    platform: 'Windows',
+    accessType: 'Public',
+    estimatedInstances: 0,
+    downloadUrl: '/downloads/ohms-gate-standard-1.0.0.zip',
+  };
+
+  onDownloadRequested(id: number): void {
+    console.log('Download requested for item:', id);
   }
 }
