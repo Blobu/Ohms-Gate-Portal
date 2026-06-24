@@ -14,7 +14,7 @@ import { DownloadItemsTable } from './download-items-table';
         <div class="portal-copy">
           <p class="portal-eyebrow">Ohm's Gate Portal</p>
 
-          <h1>Teacher Control Room</h1>
+          <h1>Manage Installations</h1>
 
           <p class="portal-description">
             Manage restricted builds, classroom deployment packages and protected
