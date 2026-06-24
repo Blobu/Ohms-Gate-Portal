@@ -47,7 +47,9 @@ export class AuthService {
     const storedUser =
       localStorage.getItem('currentUser') ?? sessionStorage.getItem('currentUser');
 
-    if (!storedUser) {
+    const accessToken =
+      localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
+    if (!storedUser || !accessToken) {
       this.currentUser.set(null);
       return;
     }
@@ -71,6 +73,9 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.currentUser() !== null;
+    return this.currentUser() !== null && this.getAccessToken() !== null;
+  }
+  getMe(): Observable<unknown> {
+    return this.http.get('http://localhost:3000/auth/me');
   }
 }

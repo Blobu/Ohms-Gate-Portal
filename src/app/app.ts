@@ -13,20 +13,6 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     this.authService.restoreSession();
-    // temporar pentru test dashboard
-  //   this.authService.saveSession(
-  //   {
-  //     accessToken: 'fake-token',
-  //     user: {
-  //       id: '1',
-  //       firstName: 'Test',
-  //       lastName: 'User',
-  //       email: 'test@example.com',
-  //       role: 'teacher',
-  //     },
-  //   },
-  //   true
-  // );
   }
 
   

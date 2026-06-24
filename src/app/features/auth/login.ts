@@ -64,6 +64,10 @@ import { NzCardModule } from 'ng-zorro-antd/card';
                 </label>
               </div>
 
+              @if (serverError) {
+                <p class="auth-server-error">{{ serverError }}</p>
+              }
+
               <div class="auth-footer">
                 <p>
                   Don't have an account?
@@ -84,6 +88,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
+  serverError = '';
 
   loginForm = new FormGroup({
     email: new FormControl('', {
@@ -100,6 +105,7 @@ export class Login {
   });
 
   onSubmit(): void {
+    this.serverError = '';
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -116,6 +122,7 @@ export class Login {
       },
       error: (error) => {
         console.error('Login failed:', error);
+        this.serverError = error.error?.message ?? 'An error occurred during login. Please try again.';
       }
     });
   }

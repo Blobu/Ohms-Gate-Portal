@@ -128,6 +128,9 @@ const passwordsMatchValidator: ValidatorFn = (
                 }
               </ng-template>
 
+              @if (serverError) {
+                <p class="auth-server-error">{{ serverError }}</p>
+              }
               <div class="auth-footer">
                 <p>
                   Already registered?
@@ -149,6 +152,7 @@ export class Register {
 
   private authService = inject(AuthService);
   private router = inject(Router);
+  serverError = '';
 
   registerForm = new FormGroup(
     {
@@ -177,6 +181,7 @@ export class Register {
   );
 
   onSubmit(): void {
+    this.serverError = '';
     if (this.registerForm.invalid) {
       console.log('Form is invalid:', this.registerForm.errors);
       this.registerForm.markAllAsTouched();
@@ -200,6 +205,7 @@ export class Register {
       },
       error: (error) => {
         console.error('Registration failed:', error);
+        this.serverError = error.error?.message ?? 'An error occurred during registration. Please try again.';
       },
     });
   }
