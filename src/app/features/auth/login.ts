@@ -1,53 +1,83 @@
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/service/auth.service';
+
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink, NzFormModule, NzInputModule, NzButtonModule, NzCheckboxModule, NzCardModule],
+  styleUrl: './login.scss',
   template: `
-    <h1>Login</h1>
+    <main class="auth-page">
+      <section class="auth-shell">
+        <nz-card nzBorderless class="auth-card">
+          <div class="auth-card__inner">
+            <div class="auth-card__header">
+              <p class="auth-kicker">OHM'S GATE PORTAL</p>
+              <h1>Welcome back</h1>
+              <p class="auth-description">
+                Sign in to access protected builds, teacher resources, and deployment tools.
+              </p>
+            </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" />
+            <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+              <nz-form-item>
+                <nz-form-control [nzErrorTip]="emailErrorTpl">
+                  <label for="email">Email</label>
+                  <input nz-input id="email" type="email" formControlName="email" />
+                </nz-form-control>
+              </nz-form-item>
 
-        @if (loginForm.controls.email.touched && loginForm.controls.email.invalid) {
-          <div>
-            @if (loginForm.controls.email.errors?.['required']) {
-              <small>Email is required.</small>
-            }
-            @if (loginForm.controls.email.errors?.['email']) {
-              <small>Email format is invalid.</small>
-            }
+              <ng-template #emailErrorTpl>
+                @if (loginForm.controls.email.errors?.['required']) {
+                  <span>Email is required.</span>
+                }
+                @if (loginForm.controls.email.errors?.['email']) {
+                  <span>Email format is invalid.</span>
+                }
+              </ng-template>
+
+              <nz-form-item>
+                <nz-form-control [nzErrorTip]="passwordErrorTpl">
+                  <label for="password">Password</label>
+                  <input nz-input id="password" type="password" formControlName="password" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <ng-template #passwordErrorTpl>
+                @if (loginForm.controls.password.errors?.['required']) {
+                  <span>Password is required.</span>
+                }
+              </ng-template>
+
+              <div class="auth-form__meta">
+                <label nz-checkbox formControlName="rememberMe">
+                  Remember me
+                </label>
+              </div>
+
+              <div class="auth-footer">
+                <p>
+                  Don't have an account?
+                  <a class="auth-link" routerLink="/auth/register">Sign up</a>
+                </p>
+
+                <button nz-button nzType="primary" class="auth-submit" type="submit">
+                  Enter portal
+                </button>
+              </div>
+            </form>
           </div>
-        }
-      </div>
-
-      <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" />
-
-        @if (loginForm.controls.password.touched && loginForm.controls.password.invalid) {
-          <div>
-            @if (loginForm.controls.password.errors?.['required']) {
-              <small>Password is required.</small>
-            }
-          </div>
-        }
-      </div>
-
-      <div>
-        <label>
-          <input type="checkbox" formControlName="rememberMe" />
-          Remember me
-        </label>
-      </div>
-
-      <button type="submit">Login</button>
-    </form>
+        </nz-card>
+      </section>
+    </main>
   `,
 })
 export class Login {
@@ -73,10 +103,10 @@ export class Login {
       return;
     }
 
-    const {email, password, rememberMe} = this.loginForm.value as { email: string; password: string; rememberMe: boolean };
-    const payload = { email, password } as { email: string; password: string };
+    const { email, password, rememberMe } = this.loginForm.getRawValue();
+    const payload = { email, password };
 
-    this.authService.login(payload).subscribe({ // fara subscribe nu se face loginul si nu se trimite raspuns
+    this.authService.login(payload).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
         this.authService.saveSession(response, rememberMe);

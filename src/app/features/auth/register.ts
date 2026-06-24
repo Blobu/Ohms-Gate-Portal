@@ -8,7 +8,13 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { AuthService } from 'app/core/service/auth.service';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/service/auth.service';
+
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 const passwordsMatchValidator: ValidatorFn = (
   control: AbstractControl
@@ -26,81 +32,115 @@ const passwordsMatchValidator: ValidatorFn = (
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink, NzFormModule, NzInputModule, NzButtonModule, NzCardModule],
+  styleUrl: './register.scss',
   template: `
-    <h1>Register</h1>
+    <main class="auth-page">
+      <section class="auth-shell">
+        <nz-card nzBorderless class="auth-card">
+          <div class="auth-card__inner">
+            <div class="auth-card__header">
+              <p class="auth-kicker">OHMS GATE PORTAL</p>
+              <h1>Create your account</h1>
+              <p class="auth-description">
+                Request access to the protected portal and prepare your teacher deployment workspace.
+              </p>
+            </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="firstName">First name</label>
-        <input id="firstName" type="text" formControlName="firstName" />
+            <form nz-form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+              <div class="auth-form__row">
+                <nz-form-item>
+                  <nz-form-control [nzErrorTip]="firstNameErrorTpl">
+                    <label for="firstName">First name</label>
+                    <input nz-input id="firstName" type="text" formControlName="firstName" />
+                  </nz-form-control>
+                </nz-form-item>
 
-        @if (registerForm.controls.firstName.touched && registerForm.controls.firstName.invalid) {
-          <small>First name is required.</small>
-        }
-      </div>
+                <nz-form-item>
+                  <nz-form-control [nzErrorTip]="lastNameErrorTpl">
+                    <label for="lastName">Last name</label>
+                    <input nz-input id="lastName" type="text" formControlName="lastName" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
 
-      <div>
-        <label for="lastName">Last name</label>
-        <input id="lastName" type="text" formControlName="lastName" />
+              <ng-template #firstNameErrorTpl>
+                @if (registerForm.controls.firstName.errors?.['required']) {
+                  <span>First name is required.</span>
+                }
+              </ng-template>
 
-        @if (registerForm.controls.lastName.touched && registerForm.controls.lastName.invalid) {
-          <small>Last name is required.</small>
-        }
-      </div>
+              <ng-template #lastNameErrorTpl>
+                @if (registerForm.controls.lastName.errors?.['required']) {
+                  <span>Last name is required.</span>
+                }
+              </ng-template>
 
-      <div>
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" />
+              <nz-form-item>
+                <nz-form-control [nzErrorTip]="emailErrorTpl">
+                  <label for="email">Email</label>
+                  <input nz-input id="email" type="email" formControlName="email" />
+                </nz-form-control>
+              </nz-form-item>
 
-        @if (registerForm.controls.email.touched && registerForm.controls.email.invalid) {
-          <div>
-            @if (registerForm.controls.email.errors?.['required']) {
-              <small>Email is required.</small>
-            }
-            @if (registerForm.controls.email.errors?.['email']) {
-              <small>Email format is invalid.</small>
-            }
+              <ng-template #emailErrorTpl>
+                @if (registerForm.controls.email.errors?.['required']) {
+                  <span>Email is required.</span>
+                }
+                @if (registerForm.controls.email.errors?.['email']) {
+                  <span>Email format is invalid.</span>
+                }
+              </ng-template>
+
+              <div class="auth-form__row">
+                <nz-form-item>
+                  <nz-form-control [nzErrorTip]="passwordErrorTpl">
+                    <label for="password">Password</label>
+                    <input nz-input id="password" type="password" formControlName="password" />
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-control [nzErrorTip]="confirmPasswordErrorTpl">
+                    <label for="confirmPassword">Confirm password</label>
+                    <input nz-input id="confirmPassword" type="password" formControlName="confirmPassword" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <ng-template #passwordErrorTpl>
+                @if (registerForm.controls.password.errors?.['required']) {
+                  <span>Password is required.</span>
+                }
+                @if (registerForm.controls.password.errors?.['minlength']) {
+                  <span>Password must have at least 6 characters.</span>
+                }
+              </ng-template>
+
+              <ng-template #confirmPasswordErrorTpl>
+                @if (registerForm.controls.confirmPassword.errors?.['required']) {
+                  <span>Confirm password is required.</span>
+                }
+                @if (registerForm.errors?.['passwordsMismatch']) {
+                  <span>Passwords do not match.</span>
+                }
+              </ng-template>
+
+              <div class="auth-footer">
+                <p>
+                  Already registered?
+                  <a class="auth-link" routerLink="/auth/login">Sign in</a>
+                </p>
+
+                <button nz-button nzType="primary" class="auth-submit" type="submit">
+                  Create account
+                </button>
+              </div>
+            </form>
           </div>
-        }
-      </div>
-
-      <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" />
-
-        @if (registerForm.controls.password.touched && registerForm.controls.password.invalid) {
-          <div>
-            @if (registerForm.controls.password.errors?.['required']) {
-              <small>Password is required.</small>
-            }
-            @if (registerForm.controls.password.errors?.['minlength']) {
-              <small>Password must have at least 6 characters.</small>
-            }
-          </div>
-        }
-      </div>
-
-      <div>
-        <label for="confirmPassword">Confirm password</label>
-        <input id="confirmPassword" type="password" formControlName="confirmPassword" />
-
-        @if (registerForm.controls.confirmPassword.touched && registerForm.controls.confirmPassword.invalid) {
-          @if (registerForm.controls.confirmPassword.errors?.['required']) {
-            <small>Confirm password is required.</small>
-          }
-        }
-
-        @if (
-          registerForm.touched &&
-          registerForm.errors?.['passwordsMismatch']
-        ) {
-          <small>Passwords do not match.</small>
-        }
-      </div>
-
-      <button type="submit">Register</button>
-    </form>
+        </nz-card>
+      </section>
+    </main>
   `,
 })
 export class Register {
