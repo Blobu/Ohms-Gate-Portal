@@ -27,7 +27,16 @@ import { DownloadItemModel } from '../../core/models/download-item.model';
       <main>
         <section id="hero" class="hero-section">
           <div class="hero-animation">
-            Logo animation placeholder
+            <video
+              class="hero-video"
+              autoplay
+              muted
+              playsinline
+              preload="auto"
+            >
+              <source src="/videos/logo-animation.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </section>
 
