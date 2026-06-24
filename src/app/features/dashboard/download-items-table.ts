@@ -37,14 +37,19 @@ import { DownloadItem } from '../../shared/download-item';
     DownloadItem,
   ],
   template: `
-    <section>
-      <h2>Deployment Downloads</h2>
+    <section class="downloads-section">
+      <div class="downloads-header">
+        <div>
+          <p class="eyebrow">Teacher resources</p>
+          <h2>Deployment Downloads</h2>
+        </div>
 
-      <div class="table-toolbar">
         <button nz-button nzType="primary" (click)="openAddModal()">
           Add Deployment
         </button>
+      </div>
 
+      <div class="table-toolbar">
         <input
           nz-input
           type="text"
@@ -89,17 +94,23 @@ import { DownloadItem } from '../../shared/download-item';
                 />
               </td>
               <td>
-                <button
-                  nz-button
-                  nzDanger
-                  nz-popconfirm
-                  nzPopconfirmTitle="Are you sure you want to delete this deployment?"
-                  nzOkText="Yes"
-                  nzCancelText="No"
-                  (nzOnConfirm)="onDeleteItem(item.id)"
-                >
-                  Delete
-                </button>
+                <div class="actions-cell">
+                  <button nz-button nzType="default" (click)="openEditModal(item)">
+                    Edit
+                  </button>
+
+                  <button
+                    nz-button
+                    nzDanger
+                    nz-popconfirm
+                    nzPopconfirmTitle="Are you sure you want to delete this deployment?"
+                    nzOkText="Yes"
+                    nzCancelText="No"
+                    (nzOnConfirm)="onDeleteItem(item.id)"
+                  >
+                    Delete
+                  </button>
+                </div>
               </td>
             </tr>
           }
@@ -107,18 +118,19 @@ import { DownloadItem } from '../../shared/download-item';
       </nz-table>
 
       <nz-modal
-        [nzVisible]="isAddModalVisible()"
-        nzTitle="Add Deployment"
-        nzOkText="Save"
+        [nzVisible]="isModalVisible()"
+        [nzTitle]="modalTitle()"
+        [nzOkText]="modalOkText()"
         nzCancelText="Cancel"
+        nzClassName="soft-brutal-modal"
         [nzWidth]="560"
         [nzCentered]="true"
-        (nzVisibleChange)="isAddModalVisible.set($event)"
-        (nzOnCancel)="closeAddModal()"
-        (nzOnOk)="onSubmitAdd()"
+        (nzVisibleChange)="isModalVisible.set($event)"
+        (nzOnCancel)="closeModal()"
+        (nzOnOk)="onSubmitForm()"
       >
         <ng-container *nzModalContent>
-          <form nz-form nzLayout="vertical" [formGroup]="addForm">
+          <form nz-form nzLayout="vertical" [formGroup]="deploymentForm">
             <nz-form-item>
               <nz-form-label nzRequired>Deployment Name</nz-form-label>
               <nz-form-control nzErrorTip="Deployment name is required.">
@@ -199,31 +211,15 @@ import { DownloadItem } from '../../shared/download-item';
       </nz-modal>
     </section>
   `,
-  styles: [
-    `
-      .table-toolbar {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        margin-bottom: 16px;
-      }
-
-      .search-input {
-        max-width: 320px;
-      }
-
-      .full-width {
-        width: 100%;
-      }
-    `,
-  ],
+  styleUrl: './download-items-table.scss',
 })
 export class DownloadItemsTable {
   protected downloadItemsService = inject(DownloadItemsService);
   private fb = inject(NonNullableFormBuilder);
 
   protected searchTerm = signal('');
-  protected isAddModalVisible = signal(false);
+  protected isModalVisible = signal(false);
+  protected editingItemId = signal<number | null>(null);
 
   protected versions: DownloadItemVersion[] = ['1.0.0', '1.0.1', '1.1.0'];
 
@@ -236,13 +232,21 @@ export class DownloadItemsTable {
 
   protected accessTypes: DownloadItemAccessType[] = ['Student', 'Teacher'];
 
-  protected addForm = this.fb.group({
+  protected deploymentForm = this.fb.group({
     deploymentName: ['', [Validators.required]],
     version: ['1.0.0' as DownloadItemVersion, [Validators.required]],
     platform: ['Windows' as DownloadItemPlatform, [Validators.required]],
     accessType: ['Student' as DownloadItemAccessType, [Validators.required]],
     estimatedInstances: [1, [Validators.required, Validators.min(1)]],
   });
+
+  protected modalTitle = computed(() =>
+    this.editingItemId() === null ? 'Add Deployment' : 'Edit Deployment'
+  );
+
+  protected modalOkText = computed(() =>
+    this.editingItemId() === null ? 'Add' : 'Save Changes'
+  );
 
   protected filteredDownloadItems = computed(() => {
     const term = this.searchTerm().trim().toLowerCase();
@@ -299,7 +303,9 @@ export class DownloadItemsTable {
   }
 
   protected openAddModal(): void {
-    this.addForm.reset({
+    this.editingItemId.set(null);
+
+    this.deploymentForm.reset({
       deploymentName: '',
       version: '1.0.0',
       platform: 'Windows',
@@ -307,30 +313,66 @@ export class DownloadItemsTable {
       estimatedInstances: 1,
     });
 
-    this.isAddModalVisible.set(true);
+    this.isModalVisible.set(true);
   }
 
-  protected closeAddModal(): void {
-    this.isAddModalVisible.set(false);
+  protected openEditModal(item: DownloadItemModel): void {
+    this.editingItemId.set(item.id);
+
+    this.deploymentForm.reset({
+      deploymentName: item.deploymentName,
+      version: item.version,
+      platform: item.platform,
+      accessType: item.accessType,
+      estimatedInstances: item.estimatedInstances,
+    });
+
+    this.isModalVisible.set(true);
   }
 
-  protected onSubmitAdd(): void {
-    if (this.addForm.invalid) {
-      this.markAddFormAsDirty();
+  protected closeModal(): void {
+    this.isModalVisible.set(false);
+    this.editingItemId.set(null);
+  }
+
+  protected onSubmitForm(): void {
+    if (this.deploymentForm.invalid) {
+      this.markFormAsDirty();
       return;
     }
 
-    const formValue = this.addForm.getRawValue();
+    const formValue = this.deploymentForm.getRawValue();
+    const editingId = this.editingItemId();
 
-    this.downloadItemsService.addItem({
-      deploymentName: formValue.deploymentName,
-      version: formValue.version,
-      platform: formValue.platform,
-      accessType: formValue.accessType,
-      estimatedInstances: formValue.estimatedInstances,
-    });
+    if (editingId === null) {
+      this.downloadItemsService.addItem({
+        deploymentName: formValue.deploymentName,
+        version: formValue.version,
+        platform: formValue.platform,
+        accessType: formValue.accessType,
+        estimatedInstances: formValue.estimatedInstances,
+      });
+    } else {
+      const existingItem = this.downloadItemsService
+        .downloadItems()
+        .find((item) => item.id === editingId);
 
-    this.closeAddModal();
+      if (!existingItem) {
+        this.closeModal();
+        return;
+      }
+
+      this.downloadItemsService.updateItem({
+        ...existingItem,
+        deploymentName: formValue.deploymentName,
+        version: formValue.version,
+        platform: formValue.platform,
+        accessType: formValue.accessType,
+        estimatedInstances: formValue.estimatedInstances,
+      });
+    }
+
+    this.closeModal();
   }
 
   protected onDownloadRequested(id: number): void {
@@ -349,8 +391,8 @@ export class DownloadItemsTable {
     this.downloadItemsService.deleteItem(id);
   }
 
-  private markAddFormAsDirty(): void {
-    Object.values(this.addForm.controls).forEach((control) => {
+  private markFormAsDirty(): void {
+    Object.values(this.deploymentForm.controls).forEach((control) => {
       control.markAsDirty();
       control.updateValueAndValidity();
     });

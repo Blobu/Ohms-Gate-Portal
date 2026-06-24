@@ -1,0 +1,167 @@
+.downloads-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-hard);
+}
+
+.downloads-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow {
+  margin-bottom: 0.45rem;
+  color: var(--accent-deep);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 340px;
+  min-width: 240px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--text);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+:host ::ng-deep .ant-table {
+  background: transparent;
+  color: var(--text);
+}
+
+:host ::ng-deep .ant-table-container {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+
+:host ::ng-deep .ant-table-thead > tr > th {
+  background: var(--bg-strong);
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+:host ::ng-deep .ant-table-tbody > tr > td {
+  background: var(--bg-elevated);
+  color: var(--text);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+:host ::ng-deep .ant-table-tbody > tr:hover > td {
+  background: var(--surface-strong);
+}
+
+:host ::ng-deep .ant-table-column-sorter {
+  color: var(--accent-deep);
+}
+
+:host ::ng-deep .ant-btn {
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  font-weight: 800;
+  box-shadow: 4px 4px 0 rgba(24, 22, 20, 0.16);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+:host ::ng-deep .ant-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 rgba(24, 22, 20, 0.16);
+}
+
+:host ::ng-deep .ant-btn-primary {
+  background: var(--accent);
+  border-color: var(--border);
+  color: #fffaf1;
+}
+
+:host ::ng-deep .ant-btn-primary:hover {
+  background: var(--accent-deep);
+  border-color: var(--border);
+  color: #fffaf1;
+}
+
+:host ::ng-deep .ant-btn-dangerous {
+  color: #a13f10;
+  border-color: #a13f10;
+  background: var(--surface-strong);
+}
+
+:host ::ng-deep .ant-btn-dangerous:hover {
+  color: #fffaf1;
+  border-color: #a13f10;
+  background: #a13f10;
+}
+
+:host ::ng-deep .ant-input,
+:host ::ng-deep .ant-input-number,
+:host ::ng-deep .ant-select-selector {
+  border: 2px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--bg-elevated) !important;
+  color: var(--text) !important;
+}
+
+:host ::ng-deep .ant-input:focus,
+:host ::ng-deep .ant-input-focused,
+:host ::ng-deep .ant-input-number-focused,
+:host ::ng-deep .ant-select-focused .ant-select-selector {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(217, 106, 43, 0.18) !important;
+}
+
+@media (max-width: 768px) {
+  .downloads-section {
+    padding: 1rem;
+  }
+
+  .downloads-header {
+    flex-direction: column;
+  }
+
+  .search-input {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .actions-cell {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
