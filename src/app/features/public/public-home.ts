@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DownloadItem } from '../../shared/download-item';
 import { DownloadItemModel } from '../../core/models/download-item.model';
 
 @Component({
   selector: 'app-public-home',
   standalone: true,
-  imports: [RouterLink, DownloadItem],
+  imports: [RouterLink],
   styleUrl: './public-home.scss',
   template: `
     <div class="home-page">
@@ -16,7 +15,7 @@ import { DownloadItemModel } from '../../core/models/download-item.model';
         <nav class="home-nav">
           <a href="#overview">Overview</a>
           <a href="#download">Download</a>
-          <a href="#about">About</a>
+          <a href="#features">About</a>
         </nav>
 
         <div class="home-auth">
@@ -35,9 +34,15 @@ import { DownloadItemModel } from '../../core/models/download-item.model';
         <section id="overview" class="overview-section">
           <div class="overview-copy">
             <p class="section-kicker">Immersive classroom</p>
-            <h1>Ohm’s Gate</h1>
+            <h1>Ohm's Gate</h1>
             <p class="overview-description">
-              Ohm’s Gate is a personal software project focused on creating an interactive and accessible digital environment for learning through direct experimentation. The project is designed around the idea that complex systems are understood better when users can explore, test, and manipulate them in a practical way rather than only study them theoretically. Its long-term goal is to combine intuitive interaction, structured simulation, and guided exploration into a single experience that can be adapted for both individual use and educational contexts.
+              Ohm's Gate is a personal software project focused on creating an interactive and
+              accessible digital environment for learning through direct experimentation. The
+              project is designed around the idea that complex systems are understood better when
+              users can explore, test, and manipulate them in a practical way rather than only
+              study them theoretically. Its long-term goal is to combine intuitive interaction,
+              structured simulation, and guided exploration into a single experience that can be
+              adapted for both individual use and educational contexts.
             </p>
           </div>
         </section>
@@ -47,52 +52,46 @@ import { DownloadItemModel } from '../../core/models/download-item.model';
             <p class="section-kicker">Download</p>
             <h2>Get the standard public build</h2>
             <p>
-              Install the public version of Ohm’s Gate and explore the sandbox experience.
+              Install the public version of Ohm's Gate and experience the sandbox.
             </p>
           </div>
 
-          <div class="download-panel">
-            <div class="download-meta">
-              <p><strong>{{ publicBuild.deploymentName }}</strong></p>
-              <p>Version {{ publicBuild.version }} · {{ publicBuild.platform }}</p>
-            </div>
+          <div class="download-actions">
+            <button type="button" class="download-button" (click)="downloadWindows()">
+              Windows
+            </button>
 
-            <app-download-item
-              [id]="publicBuild.id"
-              [label]="'Download standard build'"
-              (downloadRequested)="onDownloadRequested($event)"
-            />
+            <button type="button" class="download-button" (click)="downloadQuest()">
+              Oculus Quest
+            </button>
           </div>
         </section>
 
-        <section id="about" class="about-section">
+        <section id="features" class="features-section">
           <div class="section-heading">
-            <p class="section-kicker">About</p>
-            <h2>Built for structured educational deployment</h2>
+            <p class="section-kicker">Features</p>
+            <h2>Learn while playing</h2>
           </div>
 
-          <div class="about-grid">
-            <article class="about-card">
-              <h3>Public access</h3>
+          <div class="features-grid">
+            <article class="features-card">
+              <h3>Hand Tracking</h3>
               <p>
-                Visitors can discover the project and download the standard version
-                through a clear and product-focused interface.
+                Physically grab, snap, and wire components
               </p>
             </article>
 
-            <article class="about-card">
-              <h3>Teacher resources</h3>
+            <article class="features-card">
+              <h3>Logic & Electrical Simulation</h3>
               <p>
-                Authenticated users access protected builds and teacher-oriented tools
-                through a separate secure area.
+                Ohm's Gate is being designed to simulate both Logic Gates and electric circuits in the same environment
               </p>
             </article>
 
-            <article class="about-card">
-              <h3>Deployment logic</h3>
+            <article class="features-card">
+              <h3>AI Lab Partner</h3>
               <p>
-                The portal is designed around clear distribution flows, restricted access,
-                and educational deployment scenarios.
+                Gizmo, a cute companion that helps you around while carrying your inventory.
               </p>
             </article>
           </div>
@@ -100,14 +99,14 @@ import { DownloadItemModel } from '../../core/models/download-item.model';
       </main>
 
       <footer class="home-footer">
-        <p>Ohm’s Gate Portal</p>
+        <p>Ohm's Gate Portal</p>
         <p>Public access and protected educational deployment.</p>
       </footer>
     </div>
   `,
 })
 export class PublicHome {
-  protected publicBuild: DownloadItemModel = {
+  protected windowsBuild: DownloadItemModel = {
     id: 1,
     deploymentName: 'Ohms Gate Standard Build',
     version: '1.0.0',
@@ -117,9 +116,21 @@ export class PublicHome {
     downloadUrl: '/downloads/ohms-gate-standard-1.0.0.zip',
   };
 
-  onDownloadRequested(id: number): void {
-    if (id === this.publicBuild.id) {
-      window.open(this.publicBuild.downloadUrl, '_blank');
-    }
+  protected questBuild: DownloadItemModel = {
+    id: 2,
+    deploymentName: 'Ohms Gate Standard Build',
+    version: '1.0.0',
+    platform: 'Quest 2/3',
+    accessType: 'Student',
+    estimatedInstances: 0,
+    downloadUrl: '/downloads/ohms-gate-quest-standard-1.0.0.zip',
+  };
+
+  downloadWindows(): void {
+    window.open(this.windowsBuild.downloadUrl, '_blank');
+  }
+
+  downloadQuest(): void {
+    window.open(this.questBuild.downloadUrl, '_blank');
   }
 }
