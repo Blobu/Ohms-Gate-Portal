@@ -112,7 +112,7 @@ export class PublicHome {
     deploymentName: 'Ohms Gate Standard Build',
     version: '1.0.0',
     platform: 'Windows',
-    accessType: 'Public',
+    accessType: 'Student',
     estimatedInstances: 0,
     downloadUrl: '/downloads/ohms-gate-standard-1.0.0.zip',
   };
