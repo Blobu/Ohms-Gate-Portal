@@ -40,7 +40,7 @@ const passwordsMatchValidator: ValidatorFn = (
         <nz-card nzBorderless class="auth-card">
           <div class="auth-card__inner">
             <div class="auth-card__header">
-              <p class="auth-kicker">OHMS GATE PORTAL</p>
+              <p class="auth-kicker">OHM'S GATE PORTAL</p>
               <h1>Create your account</h1>
               <p class="auth-description">
                 Request access to the protected portal and prepare your teacher deployment workspace.
