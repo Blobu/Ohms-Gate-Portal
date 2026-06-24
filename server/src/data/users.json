@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": "1",
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test@test.com",
+    "passwordHash": "$2b$10$jfNC0IQpCki.IJ41JvKr7eXLFscuDvDbkaIJ3p4ZIfYanxsXyvCfK",
+    "role": "Teacher"
+  },
+  {
+    "id": "2",
+    "firstName": "Uga",
+    "lastName": "Buga",
+    "email": "beluga@gmail.com",
+    "passwordHash": "$2b$10$KXCFddqxO4AtTXxBbEPiz.6uOu7mT4L46KnAydhBrhTfC/dbX/ZUq",
+    "role": "Teacher"
+  },
+  {
+    "id": "3",
+    "firstName": "Buga",
+    "lastName": "Uga",
+    "email": "geluga@gmail.com",
+    "passwordHash": "$2b$10$5M5Sh7BIXzV6gM0VC.0yPOZtNlieEGF9DTjPrOv9Z4QjpWeFAUfsu",
+    "role": "Teacher"
+  }
+]

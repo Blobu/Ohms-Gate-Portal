@@ -10,11 +10,13 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/service/auth.service';
+import { Router } from '@angular/router';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+
 
 const passwordsMatchValidator: ValidatorFn = (
   control: AbstractControl
@@ -146,6 +148,7 @@ const passwordsMatchValidator: ValidatorFn = (
 export class Register {
 
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   registerForm = new FormGroup(
     {
@@ -175,6 +178,7 @@ export class Register {
 
   onSubmit(): void {
     if (this.registerForm.invalid) {
+      console.log('Form is invalid:', this.registerForm.errors);
       this.registerForm.markAllAsTouched();
       return;
     }
@@ -192,6 +196,7 @@ export class Register {
       next: (response) => {
         this.authService.saveSession(response, false);
         console.log('Registration successful:', response);
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Registration failed:', error);

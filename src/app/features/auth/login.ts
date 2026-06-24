@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/service/auth.service';
+import { Router } from '@angular/router';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -82,6 +83,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 })
 export class Login {
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   loginForm = new FormGroup({
     email: new FormControl('', {
@@ -110,6 +112,7 @@ export class Login {
       next: (response) => {
         console.log('Login successful:', response);
         this.authService.saveSession(response, rememberMe);
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Login failed:', error);
