@@ -168,3 +168,86 @@ app-root {
     background-size: 24px 24px;
   }
 }
+
+/* Soft Brutalism NgZorro modal */
+.soft-brutal-modal .ant-modal-content {
+  background: var(--bg-elevated);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-hard);
+  overflow: hidden;
+}
+
+.soft-brutal-modal .ant-modal-header {
+  background: var(--bg-strong);
+  border-bottom: 2px solid var(--border);
+  padding: 1.25rem 1.5rem;
+}
+
+.soft-brutal-modal .ant-modal-title {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.soft-brutal-modal .ant-modal-body {
+  background: var(--bg-elevated);
+  padding: 1.5rem;
+}
+
+.soft-brutal-modal .ant-modal-footer {
+  background: var(--bg-elevated);
+  border-top: 2px solid var(--border-soft);
+  padding: 1rem 1.5rem;
+}
+
+.soft-brutal-modal .ant-modal-close {
+  color: var(--text);
+}
+
+.soft-brutal-modal .ant-modal-close:hover {
+  color: var(--accent-deep);
+}
+
+.soft-brutal-modal .ant-form-item-label > label {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.soft-brutal-modal .ant-input,
+.soft-brutal-modal .ant-input-number,
+.soft-brutal-modal .ant-select-selector {
+  border: 2px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--surface-strong) !important;
+  color: var(--text) !important;
+}
+
+.soft-brutal-modal .ant-input:focus,
+.soft-brutal-modal .ant-input-focused,
+.soft-brutal-modal .ant-input-number-focused,
+.soft-brutal-modal .ant-select-focused .ant-select-selector {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(217, 106, 43, 0.18) !important;
+}
+
+.soft-brutal-modal .ant-btn {
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  font-weight: 800;
+  box-shadow: 4px 4px 0 rgba(24, 22, 20, 0.16);
+}
+
+.soft-brutal-modal .ant-btn-primary {
+  background: var(--accent);
+  border-color: var(--border);
+  color: #fffaf1;
+}
+
+.soft-brutal-modal .ant-btn-primary:hover {
+  background: var(--accent-deep);
+  border-color: var(--border);
+  color: #fffaf1;
+}

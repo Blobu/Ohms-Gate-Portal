@@ -1,10 +1,17 @@
 import { Component, input, output } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-download-item',
   standalone: true,
+  imports: [NzButtonModule],
   template: `
-    <button type="button" (click)="onDownload()">
+    <button
+      nz-button
+      nzType="default"
+      type="button"
+      (click)="downloadRequested.emit(id())"
+    >
       {{ label() }}
     </button>
   `,
@@ -14,8 +21,4 @@ export class DownloadItem {
   label = input<string>('Download');
 
   downloadRequested = output<number>();
-
-  onDownload(): void {
-    this.downloadRequested.emit(this.id());
-  }
 }
