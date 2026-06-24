@@ -113,7 +113,7 @@ export class PublicHome {
     platform: 'Windows',
     accessType: 'Student',
     estimatedInstances: 0,
-    downloadUrl: '/downloads/ohms-gate-standard-1.0.0.zip',
+    downloadUrl: 'http://localhost:3000/downloads/windows',
   };
 
   protected questBuild: DownloadItemModel = {
@@ -123,7 +123,7 @@ export class PublicHome {
     platform: 'Quest 2/3',
     accessType: 'Student',
     estimatedInstances: 0,
-    downloadUrl: '/downloads/ohms-gate-quest-standard-1.0.0.zip',
+    downloadUrl: 'http://localhost:3000/downloads/quest',
   };
 
   downloadWindows(): void {

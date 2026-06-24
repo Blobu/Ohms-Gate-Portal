@@ -101,12 +101,9 @@ import { DownloadItem } from '../../shared/download-item';
 
                   <button
                     nz-button
+                    nzType="default"
                     nzDanger
-                    nz-popconfirm
-                    nzPopconfirmTitle="Are you sure you want to delete this deployment?"
-                    nzOkText="Yes"
-                    nzCancelText="No"
-                    (nzOnConfirm)="onDeleteItem(item.id)"
+                    (click)="onDeleteItem(item.id)"
                   >
                     Delete
                   </button>
@@ -376,16 +373,34 @@ export class DownloadItemsTable {
   }
 
   protected onDownloadRequested(id: number): void {
-    const item = this.downloadItemsService
-      .downloadItems()
-      .find((downloadItem) => downloadItem.id === id);
+  const item = this.downloadItemsService
+    .downloadItems()
+    .find((downloadItem) => downloadItem.id === id);
 
-    if (!item) {
-      return;
-    }
-
-    window.open(item.downloadUrl, '_blank');
+  if (!item) {
+    return;
   }
+
+  this.downloadItemsService.downloadFile(item.downloadUrl).subscribe({
+    next: (response) => {
+      const blob = response.body;
+
+      if (!blob) {
+        return;
+      }
+
+      const objectUrl = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = objectUrl;
+      anchor.download = `${item.deploymentName}-${item.version}.rar`;
+      anchor.click();
+      window.URL.revokeObjectURL(objectUrl);
+    },
+    error: (error) => {
+      console.error('Download failed:', error);
+    }
+  });
+}
 
   protected onDeleteItem(id: number): void {
     this.downloadItemsService.deleteItem(id);

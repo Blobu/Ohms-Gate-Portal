@@ -5,12 +5,16 @@ import {
   DownloadItemPlatform,
   DownloadItemVersion,
 } from '../models/download-item.model';
+import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DownloadItemsService {
   private readonly storageKey = 'ohms-gate-download-items';
+
+  private readonly http = inject(HttpClient);
 
   private readonly initialItems: DownloadItemModel[] = [
     {
@@ -101,6 +105,13 @@ export class DownloadItemsService {
     localStorage.setItem(this.storageKey, JSON.stringify(items));
   }
 
+  downloadFile(url: string) {
+    return this.http.get(url, {
+      responseType: 'blob',
+      observe: 'response',
+    });
+  }
+
   private generateDownloadUrl(
     platform: DownloadItemPlatform,
     accessType: DownloadItemAccessType,
@@ -113,6 +124,6 @@ export class DownloadItemsService {
 
     const normalizedAccessType = accessType.toLowerCase();
 
-    return `/downloads/ohms-gate-${normalizedPlatform}-${normalizedAccessType}-${version}.zip`;
+    return `http://localhost:3000/downloads/protected/ohms-gate-${normalizedPlatform}-${normalizedAccessType}-${version}.rar`;
   }
 }
