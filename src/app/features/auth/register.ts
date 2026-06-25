@@ -11,6 +11,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/service/auth.service';
 import { Router } from '@angular/router';
+import { signal } from '@angular/core';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -128,8 +129,8 @@ const passwordsMatchValidator: ValidatorFn = (
                 }
               </ng-template>
 
-              @if (serverError) {
-                <p class="auth-server-error">{{ serverError }}</p>
+              @if (serverError()) {
+                <p>{{ serverError() }}</p>
               }
               <div class="auth-footer">
                 <p>
@@ -152,7 +153,7 @@ export class Register {
 
   private authService = inject(AuthService);
   private router = inject(Router);
-  serverError = '';
+  serverError = signal('');
 
   registerForm = new FormGroup(
     {
@@ -181,7 +182,7 @@ export class Register {
   );
 
   onSubmit(): void {
-    this.serverError = '';
+    this.serverError.set('');
     if (this.registerForm.invalid) {
       console.log('Form is invalid:', this.registerForm.errors);
       this.registerForm.markAllAsTouched();
@@ -205,7 +206,7 @@ export class Register {
       },
       error: (error) => {
         console.error('Registration failed:', error);
-        this.serverError = error.error?.message ?? 'An error occurred during registration. Please try again.';
+        this.serverError.set(error.error?.message ?? 'An error occurred during registration. Please try again.');
       },
     });
   }
